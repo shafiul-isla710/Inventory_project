@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Auth;
 
 use App\Mail\OTPMail;
 use App\Models\Otp;
@@ -25,7 +25,6 @@ class AuthController extends Controller
         catch(\Exception $e){
             return $this->responseWithError('Registration failed. Please try again.', [], 500);
         }
-
     }
 
 }

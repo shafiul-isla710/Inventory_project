@@ -15,7 +15,7 @@ class JWTToken
             $payload = $userData + [
                 'iss' => 'Laravel App', // Issuer
                 'iat' => time(), // Issued at
-                'exp' => time() + $expirationTime, // Expiration time
+                'exp' => time() + $expirationTime, // Expiration time   
             ];
 
             $token =  JWT::encode($payload, $key, 'HS256');
