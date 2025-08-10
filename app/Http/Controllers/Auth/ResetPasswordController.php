@@ -44,7 +44,7 @@ class ResetPasswordController extends Controller
                     
             $exp = time() + (60 * 30);
             $token = JWTToken::generateToken(['email'=>$request->email],$exp);
-            return $this->responseWithSuccess('OTP verified successfully', 200)->cookie('reset_password_token', $token, $exp);
+            return $this->responseWithSuccess('OTP verified successfully', 200)->cookie('reset_password_token', $token['token'], $exp);
         }
         catch(\Exception $e){
             Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
@@ -64,7 +64,7 @@ class ResetPasswordController extends Controller
             $data = $request->validated();
             $decoded = JWTToken::verifyToken($cookie);
 
-            $user = User::whereEmail($decoded['email'])->first();
+            $user = User::whereEmail($decoded['payload']->email)->first();
             $user->password = $data['password'];
             $user->save();
 

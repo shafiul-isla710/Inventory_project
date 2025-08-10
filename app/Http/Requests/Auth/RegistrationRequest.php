@@ -29,7 +29,11 @@ class RegistrationRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', 'min:8','max:50'],
+            'password' => ['required', 'confirmed', 'min:6','max:50'],
+
+            'phone'=>['nullable', 'numeric', 'digits:11'],
+            'address'=>['nullable', 'string', 'max:255'],
+            'avatar'=>['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048', 'dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000'],
         ];
     }
 
@@ -57,6 +61,5 @@ class RegistrationRequest extends FormRequest
         throw new HttpResponseException(
             self::responseWithError('Validation failed', $errors, 422)
         );
-
     }
 }

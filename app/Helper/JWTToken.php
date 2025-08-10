@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class JWTToken
@@ -20,14 +21,17 @@ class JWTToken
 
             $token =  JWT::encode($payload, $key, 'HS256');
 
-            return $token;
+            return [
+                'error'=>false,
+                'token'=>$token
+            ];
         } 
         
         catch (\Exception $e) {
             Log::critical($e->getMessage().''.$e->getFile().':'.$e->getLine());
             return [
-                'error' => 'Failed to generate JWT token',
-                'message' => $e->getMessage(),
+                'error' => true,
+                'message' => 'Failed to generate JWT token',
             ];
         }
     }
@@ -36,16 +40,20 @@ class JWTToken
     {
         try {
             $key = config('jwt.jwt_secret_key');
-            $decoded = JWT::decode($token, new Key($key, 'HS256'));
-            return (array) $decoded;
+            $payload = JWT::decode($token, new Key($key, 'HS256'));
+            
+            return [
+                'error'=>false,
+                'payload'=>$payload
+            ];
         } 
         
         catch (\Exception $e) {
             Log::critical($e->getMessage().''.$e->getFile().':'.$e->getLine());
-            return [
-                'error' => 'Failed to decode JWT token',
+            return response()->json([
+                'error' => 'Failed to verify JWT token',
                 'message' => $e->getMessage(),
-            ];
+            ]);
         }
     }
 }

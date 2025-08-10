@@ -8,10 +8,12 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\UserResource;
 
-class LoginController extends Controller
+class LoginLogoutController extends Controller
 {
     use ApiResponse;
 
@@ -25,10 +27,14 @@ class LoginController extends Controller
             $userData = [
                 'email'=>$user->email,
                 'id'=>$user->id,
+                'name'=>$user->name,
+                'role'=>$user->role,
+                'avatar'=>$user->profile->AvatarUrl
+
             ];
             $ext = time() + (3600 * 24);
             $token = JWTToken::generateToken($userData,$ext);
-            return $this->responseWithSuccess('Login successfully', 200)->cookie('Login_token', $token, $ext);
+            return $this->responseWithSuccess('Login successfully',$userData, 200)->cookie('Login_token', $token['token'], $ext);
 
         }
         catch(\Exception $e){
@@ -46,4 +52,6 @@ class LoginController extends Controller
             return $this->responseWithError('Something went wrong. Please try again.', [], 500);
         }
     }
+    
+    
 }
