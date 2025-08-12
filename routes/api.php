@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\JwtTokenMiddleware;
 use App\Http\Controllers\Auth\ProfileController;
@@ -30,6 +31,15 @@ Route::middleware(JwtTokenMiddleware::class)->group(function (){
     Route::put('/product-update/{product}',[ProductController::class,'update']);
 
 });
+
+Route::group(['prefix'=>'invoice'],function(){
+
+    Route::post('/store',[InvoiceController::class,'store']);
+    Route::get('/show/{invoice}',[InvoiceController::class,'show']);
+    Route::get('/show/invoice-details/{invoice}',[InvoiceController::class,'show']);
+    Route::get('/show/pdf/{invoice}',[InvoiceController::class,'print']);
+    
+})->middleware(JwtTokenMiddleware::class);
 
 
 
