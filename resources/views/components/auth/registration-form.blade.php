@@ -41,6 +41,9 @@
                             <div class="col-md-4 p-2">
                                 <button onclick="onRegistration()" class="btn mt-3 w-100  bg-gradient-primary">Complete</button>
                             </div>
+                            <div>
+                                <a href="{{ route('login.page') }}" class="text-center">Already have an account</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,15 +102,14 @@
                     });
 
                     hideLoader();
-
-                    console.log(res);
+                    
                     if (res.status === 201 && res.data.status === true) {
                         successToast(res.data.message);
                         setTimeout(function () {
                             window.location.href = '/login';
                         }, 2000);
                     }
-                    else if (res.response.status === 422) {
+                    else if (res.status === 422) {
                         let errors = res.response.data.errors;
                         for (let field in errors) {
                             if (errors.hasOwnProperty(field)) {
@@ -124,6 +126,7 @@
                     hideLoader();
                     if (err.response) {
                         let errors = err.response.data.errors;
+                        
                         if (Array.isArray(errors)) {
                             errors.forEach(msg => errorToast(msg));
                         } else {

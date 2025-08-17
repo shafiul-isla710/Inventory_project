@@ -25,7 +25,7 @@
             } else {
                 showLoader();
                 try {
-                    let res = await axios.post('/backend/password/reset/verify/otp', {
+                    let res = await axios.post('/backend/verify-otp', {
                         otp: otp,
                         email: sessionStorage.getItem('email')
                     });

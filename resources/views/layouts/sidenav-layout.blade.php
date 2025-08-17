@@ -39,14 +39,14 @@
 
         <div class="float-right h-auto d-flex">
             <div class="user-dropdown">
-                <img class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
+                <img id="navImage" class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
                 <div class="user-dropdown-content ">
                     <div class="mt-4 text-center">
-                        <img class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
+                        <img id="profileImage" class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
                         <h6>User Name</h6>
                         <hr class="user-dropdown-divider  p-0"/>
                     </div>
-                    <a href="{{ route('profile')}}" class="side-bar-item">
+                    <a href="{{ route('profile.page')}}" class="side-bar-item">
                         <span class="side-bar-item-caption">Profile</span>
                     </a>
                     <a onclick="logout()" class="side-bar-item">
@@ -61,7 +61,7 @@
 
 <div id="sideNavRef" class="side-nav-open">
 
-    <a href="{{ route("dashboard")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
+    <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
         <i class="bi bi-graph-up"></i>
         <span class="side-bar-item-caption">Dashboard</span>
     </a>
@@ -136,7 +136,7 @@
 
     async function logout(){
         showLoader();
-        let res = await axios.post("/backend/logout")
+        let res = await axios.get("/backend/logout")
         hideLoader();
 
         if(res.status===200){

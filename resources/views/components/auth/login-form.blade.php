@@ -3,13 +3,13 @@
         <div class="col-md-7 animated fadeIn col-lg-6 center-screen">
             <div class="card w-90  p-4">
                 <div class="card-body">
-                    <h4>SIGN IN</h4>
+                    <h4>Sign in with credentials</h4>
                     <br/>
                     <input id="email" placeholder="User Email" class="form-control" type="email"/>
                     <br/>
                     <input id="password" placeholder="User Password" class="form-control" type="password"/>
                     <br/>
-                    <button onclick="" class="btn w-100 bg-gradient-primary">Next</button>
+                    <button onclick="submitLogin()" class="btn w-100 bg-gradient-primary">Next</button>
                     <hr/>
                     <div class="float-end mt-3">
                         <span>
@@ -55,29 +55,41 @@
                                 errorToast(errors[field][0]);
                             }
                         }
-                    } else {
+                    } 
+                     else {
                         errorToast(res.data.message);
                     }
                 } catch (err) {
-                    hideLoader();
-                    if (err.response) {
-                        let errors = err.response.data.errors;
-                        if (Array.isArray(errors)) {
-                            errors.forEach(msg => errorToast(msg));
-                        } else {
-                            for (let field in errors) {
-                                if (errors.hasOwnProperty(field)) {
-                                    errorToast(errors[field][0]);
+                        hideLoader();
+
+                        if (err.response) {
+                            if (err.response.status === 401) {
+                                // Handle unauthorized specifically
+                                errorToast(err.response.data.message || "Unauthorized");
+                            }
+                            else if (err.response.status === 422) {
+                                // Handle validation errors
+                                let errors = err.response.data.errors;
+                                if (Array.isArray(errors)) {
+                                    errors.forEach(msg => errorToast(msg));
+                                } else if (typeof errors === 'object') {
+                                    for (let field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            errorToast(errors[field][0]);
+                                        }
+                                    }
                                 }
                             }
+                            else {
+                                // Other server errors
+                                errorToast(err.response.data.message || "Something went wrong");
+                            }
+                        } else {
+                            // Network or unknown error
+                            errorToast(err.message || "Network error");
                         }
-                    } else if (err.response && err.response.status === 401) {
-                        errorToast(err.response.data.message);
-                    } else {
-                        errorToast(err.response.data.message);
                     }
                 }
-            }
         }
     </script>
 @endpush

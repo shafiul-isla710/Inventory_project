@@ -29,11 +29,11 @@ class ResetPasswordRequest extends FormRequest
             'password'=>'required|confirmed'
         ];
     }
-     public function failedValidation(Validator $validator)
+    public function failedValidation(Validator $validator)
     {
         $errors = $validator->errors()->all();
         throw new HttpResponseException(
-            self::responseWithError('Validation failed', $errors, 422)
+            self::responseWithError(false,'Validation failed', $errors, 422)
         );
     }
 }

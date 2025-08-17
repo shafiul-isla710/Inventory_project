@@ -28,5 +28,11 @@ class PageController extends Controller
     public function resetPassword(){
         return view('pages.auth.reset-pass-page');
     }
+    public function dashboard(){
+        return view('pages.dashboard.dashboard-page');
+    }
 
+    public function profile(Request $request){
+        return view('pages.dashboard.profile-page');
+    }
 }

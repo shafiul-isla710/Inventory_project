@@ -8,25 +8,24 @@ use Illuminate\Support\Facades\Log;
 
 trait ApiResponse
 {
-     public function responseWithSuccess($message='Success',$data=[],$code=200):JsonResponse
+     public function responseWithSuccess($status = true, $message='Success',$data=[],$code=200):JsonResponse
    {
         return response()->json([
-           'status' => true,
+           'status' => $status,
            'message' => $message,
            'data' => $data,
         ], $code);
    }
-    public function responseWithError($message='Failed',$data=[],$code=400):JsonResponse
+    public function responseWithError($status = false, $message='Failed',$errors=[],$code=400):JsonResponse
    {
         Log::error($message, [
-            'data' => $data,
+            'data' => $errors,
             'code' => $code,
         ]);
-
         return response()->json([
-           'status' => false,
+           'status' => $status,
            'message' => $message,
-           'data' => $data,
+           'errors' => $errors,
         ], $code);
    }
 }

@@ -22,7 +22,7 @@ class LoginLogoutController extends Controller
         try{
             $user = User::whereEmail($request->email)->first();
             if(!Hash::check($request->password, $user->password)){
-                return $this->responseWithError('Invalid email or password', [], 401);
+                return $this->responseWithError(false,'Invalid email or password', [], 401);
             }
             $userData = [
                 'email'=>$user->email,
@@ -30,27 +30,28 @@ class LoginLogoutController extends Controller
                 'name'=>$user->name,
                 'role'=>$user->role,
                 'avatar'=>$user->profile->AvatarUrl
-
             ];
             $ext = time() + (3600 * 24);
             $token = JWTToken::generateToken($userData,$ext);
-            return $this->responseWithSuccess('Login successfully',$userData, 200)->cookie('Login_token', $token['token'], $ext);
-
+            return $this->responseWithSuccess(true,'Login successfully',$userData, 200)->cookie('Login_token', $token['token'], $ext);
+            
         }
         catch(\Exception $e){
             Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
-            return $this->responseWithError('Something went wrong. Please try again.', [], 500);
+            return $this->responseWithError(false,'Something went wrong. Please try again.', [], 500);
         }
     }
 
     public function logout(Request $request){
+
         try{
-            return $this->responseWithSuccess('Logout successfully', 200)->withoutCookie('Login_token');
+            return $this->responseWithSuccess(true,'Logout successfully', [], 200)->withoutCookie('Login_token');
         }
         catch(\Exception $e){
             Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
-            return $this->responseWithError('Something went wrong. Please try again.', [], 500);
+            return $this->responseWithError(false,'Something went wrong. Please try again.', [], 500);
         }
+
     }
     
     

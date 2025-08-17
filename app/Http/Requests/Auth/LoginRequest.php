@@ -21,8 +21,20 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=>'required|email|exists:users,email',
-            'password'=>'required',            
+            // 'email'=>'required|email|exists:users,email',
+            // 'password'=>'required',   
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required'],       
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Must be filled Email field.',
+            'email.email' => 'Email must be a valid email address.',
+            'email.exists' => 'Email does not exist.',
+            'password.required' => 'Must be filled Password field.',
         ];
     }
 
@@ -30,7 +42,7 @@ class LoginRequest extends FormRequest
     {
         $errors = $validator->errors()->all();
         throw new HttpResponseException(
-            self::responseWithError('Validation failed', $errors, 422)
+            self::responseWithError(false,'Validation failed', $errors, 422)
         );
     } 
 }

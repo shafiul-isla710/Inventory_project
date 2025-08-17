@@ -34,10 +34,10 @@ class RegistrationController extends Controller
             }
             Profile::create($profileData);
 
-            return $this->responseWithSuccess('Registration successful',$data=$user, 201);
+            return $this->responseWithSuccess(true,'Registration successful',$user, 201);
         }
         catch(\Exception $e){
-            return $this->responseWithError('Registration failed. Please try again.', [], 500);
+            return $this->responseWithError(false,'Registration failed. Please try again.', [], 500);
         }
     }
 

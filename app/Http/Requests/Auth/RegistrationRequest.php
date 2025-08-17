@@ -59,7 +59,7 @@ class RegistrationRequest extends FormRequest
     {
         $errors = $validator->errors()->all();
         throw new HttpResponseException(
-            self::responseWithError('Validation failed', $errors, 422)
+            self::responseWithError( false,'Validation failed', $errors, 422)
         );
     }
 }

@@ -33,7 +33,7 @@
             } else {
                 showLoader();
                 try {
-                    let res = await axios.post('/backend/password/reset', {
+                    let res = await axios.post('/backend/reset-password', {
                         password: password,
                         password_confirmation: passwordConfirmation
                     });

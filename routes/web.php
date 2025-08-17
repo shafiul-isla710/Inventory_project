@@ -58,5 +58,10 @@ Route::get('/login',[PageController::class,'login'])->name('login.page');
 Route::get('/register',[PageController::class,'register'])->name('register.page');
 Route::get('/sent-otp',[PageController::class,'sentOtp'])->name('forgot-password.send-otp.page');
 Route::get('/verify-otp',[PageController::class,'verifyOtp'])->name('verify-otp.page');
-Route::get('/verify-otp',[PageController::class,'verifyOtp'])->name('verify-otp.page');
 Route::get('/reset-password',[PageController::class,'resetPassword'])->name('reset-password.page');
+
+Route::middleware(JwtTokenMiddleware::class)->group(function (){
+    Route::get('/dashboard',[PageController::class,'dashboard'])->name('dashboard.page');
+    Route::get('/profile',[PageController::class,'profile'])->name('profile.page');
+});
+

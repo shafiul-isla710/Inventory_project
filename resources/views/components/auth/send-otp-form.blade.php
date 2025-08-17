@@ -25,14 +25,14 @@
             } else {
                 showLoader();
                 try {
-                    let res = await axios.post('/backend/password/reset/send/otp', { email: email });
+                    let res = await axios.post('/backend/reset-password/sent-otp', { email: email });
                     hideLoader();
 
                     if (res.status === 200 && res.data.status === true) {
                         successToast(res.data.message);
                         sessionStorage.setItem('email', email);
                         setTimeout(function () {
-                            window.location.href = '/verify-otp';
+                            window.location.href ='/verify-otp';
                         }, 1000);
                     } else if (res.response.status === 422) {
                         let errors = res.response.data.errors;
