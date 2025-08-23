@@ -43,7 +43,7 @@
                 <div class="user-dropdown-content ">
                     <div class="mt-4 text-center">
                         <img id="profileImage" class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
-                        <h6>User Name</h6>
+                        <h6 id="userName">User Name</h6>
                         <hr class="user-dropdown-divider  p-0"/>
                     </div>
                     <a href="{{ route('profile.page')}}" class="side-bar-item">
@@ -133,6 +133,18 @@
         }
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        let loginUser = JSON.parse(localStorage.getItem("user"));
+        let profileImage = document.getElementById("profileImage");
+        let navImage = document.getElementById("navImage");
+        document.getElementById("userName").innerHTML = loginUser.name;
+
+        if(loginUser && loginUser.avatar){
+            profileImage.src = loginUser.avatar;
+            navImage.src = loginUser.avatar;
+        }
+    })
 
     async function logout(){
         showLoader();

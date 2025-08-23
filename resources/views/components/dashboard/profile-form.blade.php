@@ -1,3 +1,12 @@
+@push('style')
+<style>
+    #previewImage{
+        width: 100px;
+        height: 100px;
+        border-radius: 80%;
+    }
+</style>
+@endpush
 <div class="container">
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -27,6 +36,17 @@
                                 <label>Address</label>
                                 <textarea id="address" placeholder="Address" class="form-control"></textarea>
                             </div>
+                            <div class="col-md-4 p-2 row">  
+                                <div class="col-md-8 p-2">
+                                    <input id="avatar" class="form-control mt-2" type="file" onchange="onFileChange(event)">
+                                </div> 
+                                <div class="col-md-4 p-2">                          
+                                    <img id="previewImage" alt="">
+                                </div>
+                            </div>
+                            <script>
+                                
+                            </script>
                         </div>
                         <div class="row m-0 p-0">
                             <div class="col-md-4 p-2">
@@ -45,28 +65,47 @@
         getProfile()
         async function getProfile(){
             showLoader();
-            let res=await axios.get("/backend/profile")
+            let res = await axios.get("/backend/user-profile")
             hideLoader();
 
             if(res.status===200){
                 // console.log(res.data.data);
-                let data=res.data.data;
+                // let data = JSON.parse(localStorage.getItem('user'));
+                let data = res.data.data;
                 document.getElementById('role').value=data.role;
                 document.getElementById('email').value=data.email;
                 document.getElementById('name').value=data.name;
                 document.getElementById('phone').value=data.phone;
                 document.getElementById('address').value=data.address;
+                
+                if(data.avatar){
+                    document.getElementById('previewImage').src=data.avatar;
+                }
             }
             else{
                 errorToast(res.data['message'])
             }
         }
 
+        function onFileChange(event){
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('previewImage');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        document.querySelector('.previewImage').addEventListener('click',function(){
+            document.getElementById('avatar').click();
+        })
 
         async function onUpdate() {
             let name = document.getElementById('name').value;
             let phone = document.getElementById('phone').value;
             let address = document.getElementById('address').value;
+            let avatarFile = document.getElementById('avatar');
+            let avatarImage = avatarFile.files[0];
 
             if(name.length===0){
                 errorToast('First Name is required')
@@ -81,17 +120,37 @@
 
             showLoader();
             try {
-                let res=await axios.post("/backend/profile-update",{
-                    name:name,
-                    phone:phone,
-                    address:address
+
+                let formData = new FormData();
+                formData.append('name', name);
+                formData.append('phone', phone);
+                formData.append('address', address);
+                
+                if(avatarImage){
+                    formData.append('avatar', avatarImage);
+                }
+
+                let res = await axios.post("/backend/profile-update",formData,{
+                     Headers:{
+                        'Content-Type':'multipart/form-data'
+                    }
                 })
                 hideLoader();
                 if (res.status === 200 && res.data.status === true) {
+
+                    let updateUser = res.data.data;
+                    // localStorage.setItem('user', JSON.stringify(updateUser));
+                    localStorage.setItem("user", JSON.stringify(res.data.data))
+                    phone.value = updateUser.phone;
+                    address.value = updateUser.address;
+                    
+                    if(updateUser.avatar){
+                        document.getElementById('previewImage').src=updateUser.avatar;
+                    }   
                     successToast(res.data.message);
                     setTimeout(() => {
                         window.location.href = '/profile';
-                    },1000)
+                    },3000)
                 }
                 else if (res.response.status === 422) {
                     let errors = res.response.data.errors;
@@ -126,5 +185,6 @@
                 }
             }
         }
+
     </script>
 @endpush

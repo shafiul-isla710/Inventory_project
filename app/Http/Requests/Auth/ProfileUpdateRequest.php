@@ -26,9 +26,9 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'string', 'max:255'],
             'phone'=>'nullable|numeric|digits:11',
             'address'=>'nullable|string|',
-            'avatar'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
         ];
     }
 
@@ -36,7 +36,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         $errors = $validator->errors()->all();
         throw new HttpResponseException(
-            self::responseWithError('Validation failed', $errors, 422)
+            self::responseWithError(false,'Validation failed', $errors, 422)
         );
     }
 }

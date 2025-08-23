@@ -45,6 +45,8 @@
 
                     if (res.status === 200 && res.data.status === true) {
                         successToast(res.data.message);
+                        let userData = res.data.data;
+                        localStorage.setItem("user", JSON.stringify(userData));
                         setTimeout(() => {
                             window.location.href = "/dashboard";
                         },2000)

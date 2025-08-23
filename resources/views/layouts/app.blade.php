@@ -11,6 +11,9 @@
     <link href="{{asset('assets/css/fontawesome.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/toastify.min.css')}}" rel="stylesheet" />
+    <!-- Awesome Icon CDN Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     @stack('style')
 </head>
 

@@ -33,7 +33,7 @@ class LoginLogoutController extends Controller
             ];
             $ext = time() + (3600 * 24);
             $token = JWTToken::generateToken($userData,$ext);
-            return $this->responseWithSuccess(true,'Login successfully',$userData, 200)->cookie('Login_token', $token['token'], $ext);
+            return $this->responseWithSuccess(true,'Login successfully', new UserResource($user), 200)->cookie('Login_token', $token['token'], $ext);
             
         }
         catch(\Exception $e){

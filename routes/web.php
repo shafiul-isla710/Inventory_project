@@ -28,7 +28,7 @@ Route::group(['prefix'=>'backend'],function(){
     Route::middleware(JwtTokenMiddleware::class)->group(function (){
 
         Route::get('/user-profile',[ProfileController::class,'userProfile']);
-        Route::put('/profile-update',[ProfileController::class,'profileUpdate']);
+        Route::post('/profile-update',[ProfileController::class,'profileUpdate']);
         Route::get('/logout',[LoginLogoutController::class,'logout']);
 
         //product
