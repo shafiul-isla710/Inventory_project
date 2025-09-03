@@ -21,4 +21,5 @@ class Profile extends Model
 
        return asset('images/avatar.png');
     }
+
 }

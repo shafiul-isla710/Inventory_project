@@ -58,9 +58,7 @@
     </div>
 </nav>
 
-
-<div id="sideNavRef" class="side-nav-open">
-
+<div id="adminSideNav" class="side-nav-open" style="display: none;">
     <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
         <i class="bi bi-graph-up"></i>
         <span class="side-bar-item-caption">Dashboard</span>
@@ -76,7 +74,7 @@
         <span class="side-bar-item-caption">Category</span>
     </a>
 
-    <a href="{{url("/productPage")}}" class="side-bar-item">
+    <a href="{{ route('admin.products.list') }}" class="side-bar-item">
         <i class="bi bi-bag"></i>
         <span class="side-bar-item-caption">Product</span>
     </a>
@@ -96,7 +94,28 @@
         <span class="side-bar-item-caption">Report</span>
     </a>
 
+</div>
 
+<div id="customerSideNav" class="side-nav-open" style="display: none;">
+    <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
+        <i class="bi bi-graph-up"></i>
+        <span class="side-bar-item-caption">Dashboard</span>
+    </a>
+
+    <a href="#" class="side-bar-item">
+        <i class="bi bi-people"></i>
+        <span class="side-bar-item-caption">Orders</span>
+    </a>
+
+    <a href="" class="side-bar-item">
+        <i class="bi bi-bag"></i>
+        <span class="side-bar-item-caption">Products</span>
+    </a>
+
+    <a href="" class="side-bar-item">
+        <i class="bi bi-receipt"></i>
+        <span class="side-bar-item-caption">Invoice</span>
+    </a>
 </div>
 
 
@@ -145,6 +164,13 @@
             navImage.src = loginUser.avatar;
         }
     })
+    let loginUser = JSON.parse(localStorage.getItem("user"));
+    if(loginUser && loginUser.role==="admin"){
+        document.getElementById("adminSideNav").style.display = "block";
+    }
+    else{
+        document.getElementById("customerSideNav").style.display = "block";
+    }
 
     async function logout(){
         showLoader();

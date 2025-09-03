@@ -11,4 +11,8 @@ class Product extends Model
     public function getImageUrlAttribute(){
         return asset('storage/'.$this->image);
     }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

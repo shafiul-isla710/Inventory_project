@@ -35,9 +35,16 @@ Route::group(['prefix'=>'backend'],function(){
         Route::get('/products',[ProductController::class,'index']);
         Route::get('/product-show/{product}',[ProductController::class,'show']);
         Route::post('/product-store',[ProductController::class,'store']);
-        Route::put('/product-update/{product}',[ProductController::class,'update']);
+        Route::put('/product-update/{product}',[ProductController::class,'update'])->name('admin.products.update');
 
     });
+
+    Route::group(['prefix'=>'admin/products'],function(){
+        Route::get('/list',[ProductController::class,'adminProductList'])->name('admin.products.list');
+        Route::get('/show/{product}',[ProductController::class,'adminProductEdit'])->name('admin.products.edit');
+        Route::post('/store',[ProductController::class,'store']);
+        Route::put('/update/{product}',[ProductController::class,'update']);
+    })->middleware(JwtTokenMiddleware::class);
 
     Route::group(['prefix'=>'invoice'],function(){
 

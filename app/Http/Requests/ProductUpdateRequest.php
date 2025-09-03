@@ -37,11 +37,11 @@ class ProductUpdateRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        $errors = $validator->errors()->all();
-        throw new HttpResponseException(
-            self::responseWithError('Validation failed', $errors, 422)
-        );
-    }
+    // public function failedValidation(Validator $validator)
+    // {
+    //     $errors = $validator->errors()->all();
+    //     throw new HttpResponseException(
+    //         self::responseWithError('Validation failed', $errors, 422)
+    //     );
+    // }
 }
