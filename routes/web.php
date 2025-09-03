@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\LoginLogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,5 +71,8 @@ Route::get('/reset-password',[PageController::class,'resetPassword'])->name('res
 Route::middleware(JwtTokenMiddleware::class)->group(function (){
     Route::get('/dashboard',[PageController::class,'dashboard'])->name('dashboard.page');
     Route::get('/profile',[PageController::class,'profile'])->name('profile.page');
+
+    Route::get('/customer/products', [ProductController::class, 'customerProductList'])->name('customer.products');
+    Route::post('/customer/products/order', [OrderController::class, 'customerOrderStore'])->name('customer.product.store');
 });
 

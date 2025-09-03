@@ -109,5 +109,19 @@ class ProductController extends Controller
             return $this->responseWithError('Something went wrong. Please try again.', [], 500);
        }
     }
+
+
+    //Customer Product list
+    public function customerProductList(){
+         try{
+                $products = Product::orderBy('name', 'asc')->get();
+                return view('pages.dashboard.customer.products.list', compact('products')); 
+         }
+    
+         catch(\Exception $e){
+                Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
+                return $this->responseWithError('Something went wrong. Please try again.', [], 500);
+         }
+    }
     
 }

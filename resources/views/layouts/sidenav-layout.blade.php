@@ -107,7 +107,7 @@
         <span class="side-bar-item-caption">Orders</span>
     </a>
 
-    <a href="" class="side-bar-item">
+    <a href="{{ route('customer.products') }}" class="side-bar-item">
         <i class="bi bi-bag"></i>
         <span class="side-bar-item-caption">Products</span>
     </a>
