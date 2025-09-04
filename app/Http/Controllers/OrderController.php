@@ -8,6 +8,7 @@ use App\Traits\ApiResponse;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {   
@@ -44,6 +45,31 @@ class OrderController extends Controller
             return $this->responseWithSuccess(true,'Order placed successfully', 200);
         }
         catch(\Exception $e){
+            Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
+            return $this->responseWithError(false,'Something went wrong. Please try again.', [], 500);
+        }
+    }
+
+    public function adminOrderList(){
+        try{
+            $orders = Order::orderBy('created_at', 'desc')->get();
+            return view('pages.dashboard.admin.orders.order-page', compact('orders'));
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
+            return $this->responseWithError(false,'Something went wrong. Please try again.', [], 500);
+        }
+    }
+
+    public function customerOrderList(){
+        try{
+            $user = Auth::user();
+            $orders = Order::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+            return view('pages.dashboard.customer.orders.order-page', compact('orders'));
+
+        }
+        catch(\Exception $e){
+            Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
             return $this->responseWithError(false,'Something went wrong. Please try again.', [], 500);
         }
     }

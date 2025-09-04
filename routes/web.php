@@ -74,5 +74,9 @@ Route::middleware(JwtTokenMiddleware::class)->group(function (){
 
     Route::get('/customer/products', [ProductController::class, 'customerProductList'])->name('customer.products');
     Route::post('/customer/products/order', [OrderController::class, 'customerOrderStore'])->name('customer.product.store');
+    Route::get('/customer/products/order/list', [OrderController::class, 'customerOrderList'])->name('customer.product.list');
+    
+    // order for admin panel
+    Route::get('/admin/orders', [OrderController::class, 'adminOrderList'])->name('admin.orders.list');
 });
 

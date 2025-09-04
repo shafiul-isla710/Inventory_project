@@ -29,7 +29,6 @@
 
 <nav class="navbar fixed-top px-0 shadow-sm bg-white">
     <div class="container-fluid">
-
         <a class="navbar-brand" href="#">
             <span class="icon-nav m-0 h5" onclick="MenuBarClickHandler()">
                 <img class="nav-logo-sm mx-2"  src="{{asset('assets/images/menu.svg')}}" alt="logo"/>
@@ -38,12 +37,15 @@
         </a>
 
         <div class="float-right h-auto d-flex">
+           
             <div class="user-dropdown">
+               
                 <img id="navImage" class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
                 <div class="user-dropdown-content ">
                     <div class="mt-4 text-center">
                         <img id="profileImage" class="icon-nav-img" src="{{asset('assets/images/user.webp')}}" alt=""/>
                         <h6 id="userName">User Name</h6>
+                        <p class="text-danger" id='userRole'>User Role</p>
                         <hr class="user-dropdown-divider  p-0"/>
                     </div>
                     <a href="{{ route('profile.page')}}" class="side-bar-item">
@@ -64,9 +66,9 @@
         <span class="side-bar-item-caption">Dashboard</span>
     </a>
 
-    <a href="{{url("/customerPage")}}" class="side-bar-item">
+    <a href="{{ route("admin.orders.list")}}" class="side-bar-item">
         <i class="bi bi-people"></i>
-        <span class="side-bar-item-caption">Customer</span>
+        <span class="side-bar-item-caption">Customer Orders</span>
     </a>
 
     <a href="{{url("/categoryPage")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
@@ -102,7 +104,7 @@
         <span class="side-bar-item-caption">Dashboard</span>
     </a>
 
-    <a href="#" class="side-bar-item">
+    <a href="{{ route('customer.product.list') }}" class="side-bar-item">
         <i class="bi bi-people"></i>
         <span class="side-bar-item-caption">Orders</span>
     </a>
@@ -170,6 +172,20 @@
     }
     else{
         document.getElementById("customerSideNav").style.display = "block";
+    }
+
+    //user role
+    if(loginUser && loginUser.role === 'admin'){
+        document.getElementById("userRole").innerHTML = "Admin";
+    }
+    else if(loginUser && loginUser.role === 'customer'){
+        document.getElementById("userRole").innerHTML = "Customer";
+    }
+    else if(loginUser && loginUser.role === 'staff'){
+        document.getElementById("userRole").innerHTML = "Staff";
+    }
+    else{
+        document.getElementById("userRole").innerHTML = "";
     }
 
     async function logout(){
