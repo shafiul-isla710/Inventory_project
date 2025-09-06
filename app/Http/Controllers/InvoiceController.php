@@ -2,93 +2,171 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Invoice;
 use App\Models\Product;
 use App\Traits\ApiResponse;
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use App\Models\InvoiceDetails;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\InvoiceResource;
 use App\Http\Requests\InvoiceStoreRequest;
-use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class InvoiceController extends Controller
 {
    use ApiResponse;
-    public function store(InvoiceStoreRequest $request)
+    // public function store(Request $request)
+    // {
+
+    //     // DB::beginTransaction();
+    //     try{
+    //         $order_id = $request->order_id;
+    //         $customer_id = $request->customer_id;
+    //         $user_id = Auth::user()->id;
+    //         $invoice_number ='INV-'.uniqid();
+    //         $invoice_date = date('Y-m-d H:i:s');
+    //         $notes = '';
+
+    //         //product array
+    //         // $products = $request->products;
+    //         // $quantities = $request->quantity;
+    //         // $amounts = $request->amount;
+
+    //         $grose_total_amount = 0;
+    //         $total_amount = 0;
+
+    //         // foreach($products as $key => $value){
+    //         //     $product_id = $products[$key];
+    //         //     $quantity = $quantities[$key];
+    //         //     $product = Product::find($product_id);
+    //         //     if(!$product || $product->quantity < $quantity){
+    //         //         DB::rollBack();
+    //         //         return $this->responseWithError('Product quantity is not enough', [], 500);
+    //         //     }
+    //         // }
+
+    //         $invoice = Invoice::create([
+    //             'order_id' => $order_id,
+    //             'customer_id' => $customer_id,
+    //             'user_id' => $user_id,
+    //             'invoice_number' => $invoice_number,
+    //             'invoice_date' => $invoice_date,
+    //             'total_amount' => 0,
+    //             'notes' => $notes
+    //         ]);
+
+    //         $orderDetails = OrderDetails::where('order_id', $order_id)->get();
+
+    //         foreach($orderDetails as $order){
+
+    //             $product_id = $order->product_id;
+    //             $quantity = $order->quantity;
+    //             $amount = $order->price;
+    //             $invoice_id = $invoice->id;
+    //             $total_amount = $quantity * $amount;
+    //             $grose_total_amount += $total_amount;
+
+    //             $product = Product::find($product_id);
+
+    //             InvoiceDetails::create([
+    //                 'product_id' => $product_id,
+    //                 'invoice_id' => $invoice_id,
+    //                 'quantity' => $quantity,
+    //                 'amount' => $amount,
+    //                 'total_amount' => $total_amount
+    //                 ]);                
+    //             $product->quantity = $product->quantity - $quantity;
+    //             $product->save();  
+    //         }
+
+    //         $invoice->total_amount = $grose_total_amount;
+    //         $invoice->save();
+
+
+    //         // DB::commit();
+
+    //         return $this->responseWithSuccess(true,'Invoice created successfully', 200);
+           
+    //     }
+    //     catch(\Exception $e){
+    //         // DB::rollBack();
+    //         Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
+    //         return $this->responseWithError(false,'Something went wrong. Please try again.', [], 500);
+    //     }
+    // }
+
+
+    public function store(Request $request)
     {
 
-        DB::beginTransaction();
-        try{
-            $customer_id = $request->customer_id;
-            $user_id = $request->user_id;
-            $invoice_number ='INV-'.uniqid();
-            $invoice_date = $request->invoice_date;
-            $notes = $request->notes;
+        $order_id = $request->order_id;
+        $customer_id = $request->customer_id;
+        $user = Auth::user();
+        $invoice_date = date('Y-m-d H:i:s');
+        $notes = '';
 
-            //product array
-            $products = $request->products;
-            $quantities = $request->quantity;
-            $amounts = $request->amount;
+        $invoice_number = 'INV-'.date('Ymd').uniqid();
 
-            $grose_total_amount = 0;
-            $total_amount = 0;
+        $gross_total_amount = 0;
 
-            foreach($products as $key => $value){
-                $product_id = $products[$key];
-                $quantity = $quantities[$key];
-                $product = Product::find($product_id);
-                if(!$product || $product->quantity < $quantity){
-                    DB::rollBack();
-                    return $this->responseWithError('Product quantity is not enough', [], 500);
-                }
-            }
+        $invoice = Invoice::create([
+            'order_id'=> $order_id,
+            'customer_id'=> $customer_id,
+            'user_id'=> 2,
+            'invoice_number'=> $invoice_number,
+            'invoice_date'=> $invoice_date,
+            'total_amount'=> 0,
+            'status'=> "Pending",
+        ]);
 
-            $invoice = Invoice::create([
-                'customer_id' => $customer_id,
-                'user_id' => $user_id,
-                'invoice_number' => $invoice_number,
-                'invoice_date' => $invoice_date,
-                'total_amount' => 0,
-                'notes' => $notes
-            ]);
 
-            foreach($products as $key => $value){
 
-                $product_id = $products[$key];
-                $quantity = $quantities[$key];
-                $amount = $amounts[$key];
-                $invoice_id = $invoice->id;
-                $total_amount = $quantity * $amount;
-                $grose_total_amount += $total_amount;
 
-                $product = Product::find($product_id);
+        $orderDetails = OrderDetails::where('order_id', $order_id)->get();
 
-                InvoiceDetails::create([
-                    'product_id' => $product_id,
-                    'invoice_id' => $invoice_id,
-                    'quantity' => $quantity,
-                    'amount' => $amount,
-                    'total_amount' => $total_amount
-                    ]);                
-                $product->quantity = $product->quantity - $quantity;
-                $product->save();  
-            }
+        $total_amount = 0;
+        foreach($orderDetails as $order)
+        {
+            $product_id = $order->product_id;
+            $quantity  = $order->quantity;
+            $amount  = $order->price;
 
-            $invoice->total_amount = $grose_total_amount;
-            $invoice->save();
+            $total_amount = $quantity * $amount;
+            $gross_total_amount+= $total_amount;
 
-            DB::commit();
+            $invoiveDetails = [
+                'invoice_id' =>  $invoice->id,
+                'product_id' =>  $product_id,
+                'quantity' =>  $quantity,
+                'amount' =>  $amount,
+                'total_amount' =>  $total_amount,
+            ];
 
-            return $this->responseWithSuccess('Invoice created successfully', 200);
-           
+            InvoiceDetails::create($invoiveDetails);
+
+            // update product table:
+            $product = Product::find($product_id);
+            $product->quantity = $product->quantity - $quantity;
+            $product->save();
         }
-        catch(\Exception $e){
-            DB::rollBack();
-            Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());
-            return $this->responseWithError('Something went wrong. Please try again.', [], 500);
-        }
+
+        $invoice->total_amount = $gross_total_amount;
+        $invoice->save();
+
+        $order = Order::find($order->id);
+        $order->status = 'confirmed';
+        $order->save();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $invoice,
+            'message' => 'Invoice Created successfully.'
+        ]);
     }
 
 

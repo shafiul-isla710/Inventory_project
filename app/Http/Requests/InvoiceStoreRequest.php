@@ -27,7 +27,7 @@ class InvoiceStoreRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|exists:users,id',
-            'user_id' => 'required|exists:users,id',
+            'order_id' => 'required|exists:orders,id',
             'invoice_date' => 'required|date',
 
             'products' => 'required|array|distinct',

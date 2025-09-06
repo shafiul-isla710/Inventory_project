@@ -9,7 +9,7 @@
                 <th>Total</th>
                 <th>Date</th>
                 <th>Action</th>
-                {{-- <th>Invoice</th> --}}
+                <th>Invoice</th>
             </tr>
         </thead>
         <tbody>
@@ -27,13 +27,13 @@
                         <span class="text-muted">Confirmed</span>
                     @endif
                 </td>
-                {{-- <td>
+                <td>
                     @if($order->invoice)
                         <a href="{{ route('admin.invoice.show', $order->invoice->id) }}" class="btn btn-sm btn-info">Invoice</a>
                     @else
                         <span class="text-muted">No Invoice</span>
                     @endif
-                </td> --}}
+                </td>
             </tr>
             @endforeach
         </tbody>
@@ -43,12 +43,12 @@
 
 @push('script')
 
-    {{-- <script>
+    <script>
         function confirmOrder(orderID, customerID)
         {
             if(confirm('Are you sure to confirm?')){
 
-                axios.post('/backend/invoices/store', {
+                axios.post('/backend/invoice/store', {
                     'order_id':orderID,
                     'customer_id':customerID,
                 }).then(function(response){
@@ -57,6 +57,6 @@
 
             }
         }
-    </script> --}}
+    </script>
 
 @endpush

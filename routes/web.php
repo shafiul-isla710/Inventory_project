@@ -50,7 +50,7 @@ Route::group(['prefix'=>'backend'],function(){
     Route::group(['prefix'=>'invoice'],function(){
 
         Route::post('/store',[InvoiceController::class,'store']);
-        Route::get('/show/{invoice}',[InvoiceController::class,'show']);
+        Route::get('/show/{invoice}',[InvoiceController::class,'show'])->name('admin.invoice.show');
         Route::get('/show/invoice-details/{invoice}',[InvoiceController::class,'show']);
         Route::get('/show/pdf/{invoice}',[InvoiceController::class,'print']);
         
