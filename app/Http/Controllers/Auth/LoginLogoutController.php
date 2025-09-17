@@ -24,16 +24,21 @@ class LoginLogoutController extends Controller
             if(!Hash::check($request->password, $user->password)){
                 return $this->responseWithError(false,'Invalid email or password', [], 401);
             }
-            $userData = [
-                'email'=>$user->email,
-                'id'=>$user->id,
-                'name'=>$user->name,
-                'role'=>$user->role,
-                'avatar'=>$user->profile->AvatarUrl
-            ];
-            $ext = time() + (3600 * 24);
-            $token = JWTToken::generateToken($userData,$ext);
-            return $this->responseWithSuccess(true,'Login successfully', new UserResource($user), 200)->cookie('Login_token', $token['token'], $ext);
+
+            $credentials = $request->only('email', 'password');
+            
+            if(Auth::attempt($credentials , $request->only('email', 'password'))){
+                    $userData = [
+                    'email'=>$user->email,
+                    'id'=>$user->id,
+                    'name'=>$user->name,
+                    'role'=>$user->role,
+                    'avatar'=>$user->profile->AvatarUrl
+                ];
+                $ext = time() + (3600 * 24);
+                $token = JWTToken::generateToken($userData,$ext);
+                return $this->responseWithSuccess(true,'Login successfully', new UserResource($user), 200)->cookie('Login_token', $token['token'], $ext);
+            }
             
         }
         catch(\Exception $e){
