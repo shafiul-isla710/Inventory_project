@@ -51,8 +51,9 @@ class OrderController extends Controller
 
     public function adminOrderList(){
         try{
+            $user = Auth::user();
             $orders = Order::orderBy('created_at', 'desc')->get();
-            return view('pages.dashboard.admin.orders.order-page', compact('orders'));
+            return view('pages.dashboard.admin.orders.order-page', compact('orders', 'user'));
         }
         catch(\Exception $e){
             Log::error($e->getMessage().''.$e->getFile().':'.$e->getLine());

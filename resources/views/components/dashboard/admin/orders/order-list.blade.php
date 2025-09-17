@@ -22,7 +22,7 @@
                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
                 <td>
                     @if($order->status == 'pending')
-                        <button class="btn btn-sm btn-success" onclick="confirmOrder('{{ $order->id }}', '{{ $order->user_id }}')">Confirm</button>
+                        <button class="btn btn-sm btn-success" onclick="confirmOrder('{{ $order->id }}', '{{ $order->user_id }}', '{{ $user->id }}')">Confirm</button>
                     @else
                         <span class="text-muted">Confirmed</span>
                     @endif
@@ -44,13 +44,14 @@
 @push('script')
 
     <script>
-        function confirmOrder(orderID, customerID)
+        function confirmOrder(orderID, customerID,userId)
         {
             if(confirm('Are you sure to confirm?')){
 
-                axios.post('/backend/invoice/store', {
+                axios.post('/backend/invoice/store',{
                     'order_id':orderID,
                     'customer_id':customerID,
+                    'user_id':userId
                 }).then(function(response){
                      console.log(response)   
                 })

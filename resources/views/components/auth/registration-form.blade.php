@@ -91,7 +91,7 @@
                 formData.append('password_confirmation', passwordConfirmation);
                 formData.append('address', address);
                 formData.append('role', role);
-                formData.append('image', avatarFile);
+                formData.append('avatar', avatarFile);
 
                 showLoader();
                 try {
