@@ -71,7 +71,7 @@
         <span class="side-bar-item-caption">Customer Orders</span>
     </a>
 
-    <a href="{{url("/categoryPage")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
+    <a href="{{ route("admin.categories.list")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
         <i class="bi bi-list-nested"></i>
         <span class="side-bar-item-caption">Category</span>
     </a>

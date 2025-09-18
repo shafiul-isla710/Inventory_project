@@ -2,15 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\JwtTokenMiddleware;
 use App\Http\Controllers\web\PageController;
 use App\Http\Controllers\Auth\ProfileController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Auth\LoginLogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,6 +47,10 @@ Route::group(['prefix'=>'backend'],function(){
         Route::post('/store',[ProductController::class,'store']);
         Route::put('/update/{product}',[ProductController::class,'update']);
     })->middleware(JwtTokenMiddleware::class);
+
+    Route::group(['prefix'=>'admin/categories'],function(){
+        Route::get('/list',[CategoryController::class,'adminCategoryList'])->name('admin.categories.list');
+    });
 
     Route::group(['prefix'=>'invoice'],function(){
 

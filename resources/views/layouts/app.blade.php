@@ -11,6 +11,8 @@
     <link href="{{asset('assets/css/fontawesome.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/toastify.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/dataTables.dataTables.min.css')}}" rel="stylesheet" />
+    
     <!-- Awesome Icon CDN Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -34,6 +36,7 @@
 
 <script src="{{asset('assets/js/bootstrap.bundle.js')}}"></script>
 <script src="{{asset('assets/js/toastify-js.js')}}"></script>
+<script src="{{asset('assets/js/dataTables.dataTables.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.3/axios.min.js"></script>
 <script src="{{asset('assets/js/config.js')}}"></script>
 @stack('script')
