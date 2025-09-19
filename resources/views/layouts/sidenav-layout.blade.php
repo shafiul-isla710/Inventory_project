@@ -17,6 +17,26 @@
 
     @stack('style')
 
+    <style>
+        .side-nav-open {
+            width: 250px;
+            transition: 0.3s;
+        }
+        .side-nav-close {
+            width: 0;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .content {
+            margin-left: 250px;
+            transition: 0.3s;
+        }
+        .content-expand {
+            margin-left: 0;
+            transition: 0.3s;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -60,66 +80,69 @@
     </div>
 </nav>
 
-<div id="adminSideNav" class="side-nav-open" style="display: none;">
-    <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
-        <i class="bi bi-graph-up"></i>
-        <span class="side-bar-item-caption">Dashboard</span>
-    </a>
+<div id="sideNavRef" class="side-nav-open">
+    <div id="adminSideNav" style="display: none;">
+        <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
+            <i class="bi bi-graph-up"></i>
+            <span class="side-bar-item-caption">Dashboard</span>
+        </a>
 
-    <a href="{{ route("admin.orders.list")}}" class="side-bar-item">
-        <i class="bi bi-people"></i>
-        <span class="side-bar-item-caption">Customer Orders</span>
-    </a>
+        <a href="{{ route("admin.orders.list")}}" class="side-bar-item">
+            <i class="bi bi-people"></i>
+            <span class="side-bar-item-caption">Customer Orders</span>
+        </a>
 
-    <a href="{{ route("admin.categories.list")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
-        <i class="bi bi-list-nested"></i>
-        <span class="side-bar-item-caption">Category</span>
-    </a>
+        <a href="{{ route("admin.categories.list")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
+            <i class="bi bi-list-nested"></i>
+            <span class="side-bar-item-caption">Category</span>
+        </a>
 
-    <a href="{{ route('admin.products.list') }}" class="side-bar-item">
-        <i class="bi bi-bag"></i>
-        <span class="side-bar-item-caption">Product</span>
-    </a>
+        <a href="{{ route('admin.products.list') }}" class="side-bar-item">
+            <i class="bi bi-bag"></i>
+            <span class="side-bar-item-caption">Product</span>
+        </a>
 
-    <a href="{{url('/salePage')}}" class="side-bar-item">
-        <i class="bi bi-currency-dollar"></i>
-        <span class="side-bar-item-caption">Create Sale</span>
-    </a>
+        <a href="{{url('/salePage')}}" class="side-bar-item">
+            <i class="bi bi-currency-dollar"></i>
+            <span class="side-bar-item-caption">Create Sale</span>
+        </a>
 
-    <a href="{{url('/invoicePage')}}" class="side-bar-item">
-        <i class="bi bi-receipt"></i>
-        <span class="side-bar-item-caption">Invoice</span>
-    </a>
+        <a href="{{url('/invoicePage')}}" class="side-bar-item">
+            <i class="bi bi-receipt"></i>
+            <span class="side-bar-item-caption">Invoice</span>
+        </a>
 
-    <a href="{{url('/reportPage')}}" class="side-bar-item">
-        <i class="bi bi-file-earmark-bar-graph"></i>
-        <span class="side-bar-item-caption">Report</span>
-    </a>
+        <a href="{{url('/reportPage')}}" class="side-bar-item">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <span class="side-bar-item-caption">Report</span>
+        </a>
+
+    </div>
+
+
+    <div id="customerSideNav" style="display: none;">
+        <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
+            <i class="bi bi-graph-up"></i>
+            <span class="side-bar-item-caption">Dashboard</span>
+        </a>
+
+        <a href="{{ route('customer.product.list') }}" class="side-bar-item">
+            <i class="bi bi-people"></i>
+            <span class="side-bar-item-caption">Orders</span>
+        </a>
+
+        <a href="{{ route('customer.products') }}" class="side-bar-item">
+            <i class="bi bi-bag"></i>
+            <span class="side-bar-item-caption">Products</span>
+        </a>
+
+        <a href="" class="side-bar-item">
+            <i class="bi bi-receipt"></i>
+            <span class="side-bar-item-caption">Invoice</span>
+        </a>
+    </div>
 
 </div>
-
-<div id="customerSideNav" class="side-nav-open" style="display: none;">
-    <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
-        <i class="bi bi-graph-up"></i>
-        <span class="side-bar-item-caption">Dashboard</span>
-    </a>
-
-    <a href="{{ route('customer.product.list') }}" class="side-bar-item">
-        <i class="bi bi-people"></i>
-        <span class="side-bar-item-caption">Orders</span>
-    </a>
-
-    <a href="{{ route('customer.products') }}" class="side-bar-item">
-        <i class="bi bi-bag"></i>
-        <span class="side-bar-item-caption">Products</span>
-    </a>
-
-    <a href="" class="side-bar-item">
-        <i class="bi bi-receipt"></i>
-        <span class="side-bar-item-caption">Invoice</span>
-    </a>
-</div>
-
 
 <div id="contentRef" class="content">
     @yield('content')
