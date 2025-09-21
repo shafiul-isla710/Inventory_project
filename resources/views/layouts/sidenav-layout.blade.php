@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title></title>
+    <title>@yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" type="image/x-icon" href="{{asset('/favicon.ico')}}" />
@@ -14,6 +14,7 @@
     <link href="{{asset('assets/css/toastify.min.css')}}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="{{asset('assets/css/jquery.dataTables.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"> 
 
     @stack('style')
 
@@ -92,7 +93,7 @@
             <span class="side-bar-item-caption">Customer Orders</span>
         </a>
 
-        <a href="{{ route("admin.categories.list")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
+        <a href="{{ route("category.index")}}" class="side-bar-item {{ request()->routeIs('categoryPage') ? 'side-bar-item-active' : '' }}">
             <i class="bi bi-list-nested"></i>
             <span class="side-bar-item-caption">Category</span>
         </a>
@@ -158,6 +159,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.3/axios.min.js"></script>
 <script src="{{asset('assets/js/config.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.js')}}"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
 
 <script>

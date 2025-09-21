@@ -33,7 +33,7 @@ class RegistrationRequest extends FormRequest
 
             'phone'=>['nullable', 'numeric', 'digits:11'],
             'address'=>['nullable', 'string', 'max:255'],
-            'avatar'=>['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg','max:2048','dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000'],
+            'avatar'=>['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
         ];
     }
 

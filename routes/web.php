@@ -9,6 +9,7 @@ use App\Http\Middleware\JwtTokenMiddleware;
 use App\Http\Controllers\web\PageController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController1;
 use App\Http\Controllers\Auth\LoginLogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -49,8 +50,9 @@ Route::group(['prefix'=>'backend'],function(){
     })->middleware(JwtTokenMiddleware::class);
 
     Route::group(['prefix'=>'admin/categories'],function(){
-        Route::get('/list',[CategoryController::class,'adminCategoryList'])->name('admin.categories.list');
-    });
+        // Route::get('/list',[CategoryController::class,'adminCategoryList'])->name('admin.categories.list');
+        Route::resource('category',CategoryController1::class);
+    })->middleware(JwtTokenMiddleware::class);
 
     Route::group(['prefix'=>'invoice'],function(){
 
