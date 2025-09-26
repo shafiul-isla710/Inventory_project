@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\OrderController;
@@ -16,6 +17,10 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/dependencies', function (Category $category) {
+    dd($category);
 });
 
 

@@ -64,6 +64,7 @@
             let address = document.getElementById('address').value;
             let avatarFile = document.getElementById('avatar').files[0];
 
+            
             if (email.length === 0) {
                 errorToast('Email is required');
             } else if (fullName.length === 0) {
@@ -133,6 +134,7 @@
                             for (let field in errors) {
                                 if (errors.hasOwnProperty(field)) {
                                     errorToast(errors[field][0]);
+                                    console.log(errors);
                                 }
                             }
                         }

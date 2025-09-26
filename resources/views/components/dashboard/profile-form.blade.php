@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-md-4 p-2 row">  
                                 <div class="col-md-8 p-2">
-                                    <input id="61184" class="form-control mt-2" type="file" onchange="onFileChange(event)">
+                                    <input  id="avatar" class="form-control mt-2" type="file" onchange="onFileChange(event)">
                                 </div> 
                                 <div class="col-md-4 p-2">                          
                                     <img id="previewImage" alt="">
