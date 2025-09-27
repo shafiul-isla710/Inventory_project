@@ -5,10 +5,14 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="card-title">Category List</h4>
-                    <p class="card-title-desc">List of List displayed below.</p>
+                    <div class='d-flex justify-content-between mb-2'>
+                        <h4 class="card-title">Category List</h4>
 
-                    {{-- @include('backend.layouts.alerts') --}}
+                        <button class="btn btn-primary" onclick="location.href='{{ route('category.create') }}'">
+                            <i class="fa fa-plus"></i> Add Category
+                        </button>
+                        
+                    </div>
 
                     <table id='example' class="table table-bordered table-hover dt-responsive nowrap w-100">
                         <thead>

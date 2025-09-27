@@ -55,7 +55,6 @@ Route::group(['prefix'=>'backend'],function(){
     })->middleware(JwtTokenMiddleware::class);
 
     Route::group(['prefix'=>'admin/categories'],function(){
-        // Route::get('/list',[CategoryController::class,'adminCategoryList'])->name('admin.categories.list');
         Route::resource('category',CategoryController1::class);
     })->middleware(JwtTokenMiddleware::class);
 
@@ -69,7 +68,6 @@ Route::group(['prefix'=>'backend'],function(){
     })->middleware(JwtTokenMiddleware::class);
 
 });
-
 
 //frontend Page route start
 

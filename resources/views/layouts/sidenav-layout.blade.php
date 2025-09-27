@@ -7,10 +7,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" type="image/x-icon" href="{{asset('/favicon.ico')}}" />
-    <link href="{{asset('assets/css/bootstrap.css')}}" rel="stylesheet" />
+    
     <link href="{{asset('assets/css/animate.min.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/fontawesome.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/bootstrap.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/toastify.min.css')}}" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="{{asset('assets/css/jquery.dataTables.min.css')}}" rel="stylesheet" />
@@ -81,7 +82,7 @@
     </div>
 </nav>
 
-<div id="sideNavRef" class="side-nav-open">
+<div id="sideNavRef" class="side-nav-open ">
     <div id="adminSideNav" style="display: none;">
         <a href="{{ route("dashboard.page")}}" class="side-bar-item {{ request()->routeIs('dashboard') ? 'side-bar-item-active' : '' }}">
             <i class="bi bi-graph-up"></i>
@@ -146,7 +147,14 @@
 </div>
 
 <div id="contentRef" class="content">
-    @yield('content')
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                @yield('content')
+            </div>
+            <!-- container-fluid -->
+        </div>
+    </div>
 </div>
 
 
