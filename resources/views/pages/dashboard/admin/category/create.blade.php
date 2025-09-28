@@ -9,9 +9,9 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.blog.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('category.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    @include('backend.core.blog.form')
+                    @include('pages.dashboard.admin.category.form')
                 </form>
             </div>
         </div>

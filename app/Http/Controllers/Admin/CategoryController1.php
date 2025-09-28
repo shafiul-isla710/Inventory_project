@@ -31,7 +31,7 @@ class CategoryController1 extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.dashboard.admin.category.create');
     }
 
     /**
